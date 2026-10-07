@@ -1,0 +1,10 @@
+.env
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+# Built from the user's own API calls; never committed
+data/
+# Raw API responses: commit only with the API publisher's permission
+tests/fixtures/

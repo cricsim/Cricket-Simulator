@@ -1,0 +1,21 @@
+name: live-api-smoke
+on:
+  schedule:
+    - cron: "17 3 * * *"  # nightly
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    env:
+      RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - name: Live API schema checks (skipped when the secret is not set)
+        if: env.RAPIDAPI_KEY != ''
+        run: pytest -q tests/test_live_api.py
+        env:
+          CRICSIM_LIVE: "1"
